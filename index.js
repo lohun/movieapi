@@ -241,7 +241,7 @@ app.get('/movies/user/:userId', async (req, res) => {
 
         res.status(200).json({
             message: 'Movies retrieved successfully',
-            movies,
+            movie: movies,
         });
     } catch (err) {
         console.error(err);
