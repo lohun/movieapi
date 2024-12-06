@@ -17,8 +17,13 @@ const { validateInput } = require('./helpers');
 const app = express();
 const PORT = 3000;
 
+
+var corsOptions = {
+    origin: 'http://localhost:3000/',
+}
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('./uploads', express.static('uploads'));
@@ -32,6 +37,9 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+
+x
+
 
 // Passport configuration
 passport.use(
