@@ -18,6 +18,7 @@ const app = express();
 const PORT = 3000;
 
 // Middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('./uploads', express.static('uploads'));
@@ -31,7 +32,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cors());
 
 // Passport configuration
 passport.use(
