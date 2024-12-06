@@ -4,7 +4,9 @@ const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
+const cors = require('cors');
 const { ObjectId } = require('bson');
+
 
 const Users = require('./user');
 const Movies = require('./movie');
@@ -29,8 +31,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-
-
+app.use(cors());
 
 // Passport configuration
 passport.use(
@@ -227,6 +228,46 @@ app.post(
         }
     }
 );
+
+// Route to get all movies for a specific user ID
+app.get('/movies/user/:userId', async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        const movies = await Movies.findById(userId);
+        if (movies.length === 0) {
+            return res.status(404).json({ message: 'No movies found for this user' });
+        }
+
+        res.status(200).json({
+            message: 'Movies retrieved successfully',
+            movies,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+});
+
+// Route to delete a movie by its ID
+app.delete('/movies/:movieId', async (req, res) => {
+    try {
+        const { movieId } = req.params;
+
+        const deletedMovie = await Movies.findByIdAndDelete(movieId);
+        if (!deletedMovie) {
+            return res.status(404).json({ message: 'Movie not found' });
+        }
+
+        res.status(200).json({
+            message: 'Movie deleted successfully',
+            movie: deletedMovie,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+});
 
 app.get('/movies', async (req, res) => {
     if (!req.isAuthenticated()) {
