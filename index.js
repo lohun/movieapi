@@ -19,7 +19,9 @@ const PORT = 3000;
 
 
 var corsOptions = {
-    origin: 'http://localhost:3000/'
+    origin: '*',
+    optionsSuccessStatus: 200,
+    methods: "GET, PUT, POST, DELETE"
 }
 
 // Middleware
