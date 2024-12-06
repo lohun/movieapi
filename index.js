@@ -19,7 +19,7 @@ const PORT = 3000;
 
 
 var corsOptions = {
-    origin: 'http://localhost:3000/',
+    origin: 'http://localhost:3000/'
 }
 
 // Middleware
@@ -37,8 +37,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-
-x
 
 
 // Passport configuration
